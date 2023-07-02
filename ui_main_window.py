@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow, categories):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(853, 768)
+        MainWindow.resize(850, 750)
         font = QtGui.QFont()
         font.setFamily("Josefin Slab")
         font.setPointSize(14)
@@ -47,10 +47,7 @@ class Ui_MainWindow(object):
         font.setFamily("Josefin Slab")
         font.setPointSize(22)
         self.loginMessage_pushButton.setFont(font)
-        self.loginMessage_pushButton.setStyleSheet("QPushButton{\n"
-"    border-radius: 0px;\n"
-"      border-style: none;\n"
-"}")
+        self.loginMessage_pushButton.setStyleSheet("QPushButton{border-radius: 0px; border-style: none;}")
         self.loginMessage_pushButton.setObjectName("loginMessage_pushButton")
         self.horizontalLayout_2.addWidget(self.loginMessage_pushButton)
         self.login_pushButton = QtWidgets.QPushButton(self.centralwidget)
@@ -60,16 +57,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.login_pushButton.setFont(font)
-        self.login_pushButton.setStyleSheet("QPushButton{\n"
-"    padding: 0 20px;\n"
-"    width: 100%;\n"
-"    height: 50px;\n"
-"    background-color: #57b846;\n"
-"    border-radius: 25px;\n"
-"    color: #fff;\n"
-"    line-height: 1.2;\n"
-"}\n"
-"")
+        self.login_pushButton.setStyleSheet("QPushButton{ padding: 0 20px; width: 100%; height: 50px; background-color: #57b846; border-radius: 25px; color: #fff; line-height: 1.2;}")
         self.login_pushButton.setObjectName("login_pushButton")
         self.horizontalLayout_2.addWidget(self.login_pushButton)
         self.signup_pushButton = QtWidgets.QPushButton(self.centralwidget)
@@ -79,16 +67,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.signup_pushButton.setFont(font)
-        self.signup_pushButton.setStyleSheet("QPushButton{\n"
-"    padding: 0 20px;\n"
-"    width: 100%;\n"
-"    height: 50px;\n"
-"    background-color: #57b846;\n"
-"    border-radius: 25px;\n"
-"    color: #fff;\n"
-"    line-height: 1.2;\n"
-"}\n"
-"")
+        self.signup_pushButton.setStyleSheet("QPushButton{ padding: 0 20px; width: 100%; height: 50px; background-color: #57b846; border-radius: 25px; color: #fff; line-height: 1.2;}")
         self.signup_pushButton.setObjectName("signup_pushButton")
         self.horizontalLayout_2.addWidget(self.signup_pushButton)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -146,6 +125,7 @@ class Ui_MainWindow(object):
         self.category_labels = []
         self.category_tableWidgets = []
         self.category_names = categories
+
         for category in categories:
                 category_label = QtWidgets.QLabel(self.frame)
 
@@ -213,33 +193,6 @@ class Ui_MainWindow(object):
 
                 self.action_categories.append(action_category)
         
-        # self.action_category_2 = QtWidgets.QAction(MainWindow)
-        # font = QtGui.QFont()
-        # font.setFamily("Josefin Slab")
-        # font.setPointSize(14)
-        # self.action_category_2.setFont(font)
-        # self.action_category_2.setObjectName("action_category_2")
-        
-        # self.action_category_3 = QtWidgets.QAction(MainWindow)
-        # font = QtGui.QFont()
-        # font.setFamily("Josefin Slab")
-        # font.setPointSize(14)
-        # self.action_category_3.setFont(font)
-        # self.action_category_3.setObjectName("action_category_3")
-        
-        # self.action_category_4 = QtWidgets.QAction(MainWindow)
-        # font = QtGui.QFont()
-        # font.setFamily("Josefin Slab")
-        # font.setPointSize(14)
-        # self.action_category_4.setFont(font)
-        # self.action_category_4.setObjectName("action_category_4")
-        
-        # self.action_Add_New_Category = QtWidgets.QAction(MainWindow)
-        # font = QtGui.QFont()
-        # font.setFamily("Josefin Slab")
-        # font.setPointSize(14)
-        # self.action_Add_New_Category.setFont(font)
-        # self.action_Add_New_Category.setObjectName("action_Add_New_Category")
         for i in range(len(categories)):
                 self.menuCategories.addAction(self.action_categories[i])
   

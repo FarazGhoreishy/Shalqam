@@ -14,26 +14,35 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(400, 419)
+        Dialog.resize(400, 500)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("ui\\resources/shalqam.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.createAccount_label = QtWidgets.QLabel(Dialog)
         font = QtGui.QFont()
         font.setFamily("Josefin Slab")
-        font.setPointSize(20)
+        font.setPointSize(28)
         font.setBold(True)
         font.setItalic(False)
         font.setWeight(75)
         self.createAccount_label.setFont(font)
+        self.createAccount_label.setStyleSheet("QLabel{\n"
+"    width: 100%;\n"
+"    height: 50px;\n"
+"    background-color: #CA80DC;\n"
+"    border-radius: 27px;\n"
+"    padding: 0 35px 0 35px;\n"
+"    color: #fff;\n"
+"    line-height: 1.2;\n"
+"}")
         self.createAccount_label.setAlignment(QtCore.Qt.AlignCenter)
         self.createAccount_label.setObjectName("createAccount_label")
-        self.verticalLayout_3.addWidget(self.createAccount_label)
+        self.verticalLayout_2.addWidget(self.createAccount_label)
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()

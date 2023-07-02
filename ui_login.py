@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(400, 300)
+        Dialog.resize(400, 500)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -26,6 +26,25 @@ class Ui_Dialog(object):
         Dialog.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.login_message_Label = QtWidgets.QLabel(Dialog)
+        font = QtGui.QFont()
+        font.setFamily("Josefin Slab")
+        font.setPointSize(28)
+        font.setBold(True)
+        font.setWeight(75)
+        self.login_message_Label.setFont(font)
+        self.login_message_Label.setStyleSheet("QLabel{\n"
+"    width: 100%;\n"
+"    height: 50px;\n"
+"    background-color: #CA80DC;\n"
+"    border-radius: 27px;\n"
+"    padding: 0 35px 0 35px;\n"
+"    color: #fff;\n"
+"    line-height: 1.2;\n"
+"}")
+        self.login_message_Label.setAlignment(QtCore.Qt.AlignCenter)
+        self.login_message_Label.setObjectName("login_message_Label")
+        self.verticalLayout_4.addWidget(self.login_message_Label)
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -113,6 +132,8 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.login_message_Label.setText(_translate("Dialog", "Sign in to \n"
+"Your Account"))
         self.username_lineEdit.setPlaceholderText(_translate("Dialog", "Username"))
         self.password_lineEdit.setPlaceholderText(_translate("Dialog", "Password"))
         self.login_pushButton.setText(_translate("Dialog", "Login"))
