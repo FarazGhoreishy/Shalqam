@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>853</width>
+    <height>768</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Josefin Slab</family>
+    <pointsize>14</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>resources/shalqam.png</normaloff>resources/shalqam.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="shalqam_label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>resources/shalqam.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="loginMessage_pushButton">
+        <property name="font">
+         <font>
+          <family>Josefin Slab</family>
+          <pointsize>22</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+	border-radius: 0px;
+  	border-style: none;
+}</string>
+        </property>
+        <property name="text">
+         <string>Login to save your favorite items!</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="login_pushButton">
+        <property name="font">
+         <font>
+          <family>Josefin Slab</family>
+          <pointsize>18</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+    padding: 0 20px;
+    width: 100%;
+    height: 50px;
+    background-color: #57b846;
+    border-radius: 25px;
+    color: #fff;
+    line-height: 1.2;
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Login</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="signup_pushButton">
+        <property name="font">
+         <font>
+          <family>Josefin Slab</family>
+          <pointsize>18</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton{
+    padding: 0 20px;
+    width: 100%;
+    height: 50px;
+    background-color: #57b846;
+    border-radius: 25px;
+    color: #fff;
+    line-height: 1.2;
+}
+</string>
+        </property>
+        <property name="text">
+         <string>SignUp</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="font">
+       <font>
+        <family>Josefin Slab</family>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>816</width>
+         <height>1218</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QFrame" name="frame">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>1200</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QGroupBox" name="groupBox">
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout">
+                <item>
+                 <widget class="QPushButton" name="search_pushButton">
+                  <property name="font">
+                   <font>
+                    <family>HoloLens MDL2 Assets</family>
+                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string></string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="search_lineEdit">
+                  <property name="font">
+                   <font>
+                    <family>MS Shell Dlg 2</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="category_1_label">
+             <property name="font">
+              <font>
+               <family>HoloLens MDL2 Assets</family>
+               <pointsize>16</pointsize>
+              </font>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string> category_1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="category_1_tableWidget">
+             <property name="layoutDirection">
+              <enum>Qt::RightToLeft</enum>
+             </property>
+             <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <property name="sizeAdjustPolicy">
+              <enum>QAbstractScrollArea::AdjustToContents</enum>
+             </property>
+             <property name="showGrid">
+              <bool>false</bool>
+             </property>
+             <attribute name="horizontalHeaderVisible">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="verticalHeaderVisible">
+              <bool>true</bool>
+             </attribute>
+             <row>
+              <property name="text">
+               <string>modelName</string>
+              </property>
+             </row>
+             <row>
+              <property name="text">
+               <string>image</string>
+              </property>
+             </row>
+             <row>
+              <property name="text">
+               <string>price</string>
+              </property>
+             </row>
+             <column>
+              <property name="text">
+               <string>Model 1</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 2</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 3</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 4</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 5</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 6</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 7</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 8</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="category_2_label">
+             <property name="font">
+              <font>
+               <family>HoloLens MDL2 Assets</family>
+               <pointsize>16</pointsize>
+              </font>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string> category_2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="category_2_tableWidget">
+             <property name="layoutDirection">
+              <enum>Qt::RightToLeft</enum>
+             </property>
+             <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <property name="sizeAdjustPolicy">
+              <enum>QAbstractScrollArea::AdjustToContents</enum>
+             </property>
+             <property name="showGrid">
+              <bool>false</bool>
+             </property>
+             <attribute name="horizontalHeaderVisible">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="verticalHeaderVisible">
+              <bool>true</bool>
+             </attribute>
+             <row>
+              <property name="text">
+               <string>modelName</string>
+              </property>
+             </row>
+             <row>
+              <property name="text">
+               <string>image</string>
+              </property>
+             </row>
+             <row>
+              <property name="text">
+               <string>price</string>
+              </property>
+             </row>
+             <column>
+              <property name="text">
+               <string>Model 1</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 2</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 3</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 4</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 5</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 6</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 7</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 8</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="category_3_label">
+             <property name="font">
+              <font>
+               <family>HoloLens MDL2 Assets</family>
+               <pointsize>16</pointsize>
+              </font>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string> category_3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="category_3_tableWidget">
+             <property name="layoutDirection">
+              <enum>Qt::RightToLeft</enum>
+             </property>
+             <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <property name="sizeAdjustPolicy">
+              <enum>QAbstractScrollArea::AdjustToContents</enum>
+             </property>
+             <property name="showGrid">
+              <bool>false</bool>
+             </property>
+             <attribute name="horizontalHeaderVisible">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="verticalHeaderVisible">
+              <bool>true</bool>
+             </attribute>
+             <row>
+              <property name="text">
+               <string>modelName</string>
+              </property>
+             </row>
+             <row>
+              <property name="text">
+               <string>image</string>
+              </property>
+             </row>
+             <row>
+              <property name="text">
+               <string>price</string>
+              </property>
+             </row>
+             <column>
+              <property name="text">
+               <string>Model 1</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 2</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 3</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 4</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 5</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 6</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 7</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 8</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="category_4_label">
+             <property name="font">
+              <font>
+               <family>HoloLens MDL2 Assets</family>
+               <pointsize>16</pointsize>
+              </font>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string> category_4</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="category_4_tableWidget">
+             <property name="layoutDirection">
+              <enum>Qt::RightToLeft</enum>
+             </property>
+             <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <property name="sizeAdjustPolicy">
+              <enum>QAbstractScrollArea::AdjustToContents</enum>
+             </property>
+             <property name="showGrid">
+              <bool>false</bool>
+             </property>
+             <attribute name="horizontalHeaderVisible">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="verticalHeaderVisible">
+              <bool>true</bool>
+             </attribute>
+             <row>
+              <property name="text">
+               <string>modelName</string>
+              </property>
+             </row>
+             <row>
+              <property name="text">
+               <string>image</string>
+              </property>
+             </row>
+             <row>
+              <property name="text">
+               <string>price</string>
+              </property>
+             </row>
+             <column>
+              <property name="text">
+               <string>Model 1</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 2</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 3</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 4</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 5</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 6</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 7</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Model 8</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>853</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuCategories">
+    <property name="title">
+     <string>Categories</string>
+    </property>
+    <addaction name="action_category_1"/>
+    <addaction name="action_category_2"/>
+    <addaction name="action_category_3"/>
+    <addaction name="action_category_4"/>
+   </widget>
+   <addaction name="menuCategories"/>
+  </widget>
+  <action name="action_category_1">
+   <property name="text">
+    <string>category_1</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Josefin Slab</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="action_category_2">
+   <property name="text">
+    <string>category_2</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Josefin Slab</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="action_category_3">
+   <property name="text">
+    <string>category_3</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Josefin Slab</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="action_category_4">
+   <property name="text">
+    <string>category_4</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Josefin Slab</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="action_Add_New_Category">
+   <property name="text">
+    <string>Add New Category</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Josefin Slab</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
