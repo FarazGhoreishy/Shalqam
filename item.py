@@ -55,3 +55,14 @@ class Item:
         links = cursor.fetchall()
         
         return links
+    
+    @property
+    def price(self):
+        return 100
+    
+    def getImage(self):
+        return "ui/resources/placeholder.png"
+    
+
+
+test_item = Item(10101, "test_item_name", "test_item_category")
