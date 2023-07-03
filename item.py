@@ -61,8 +61,5 @@ class Item:
         return 100
     
     def getImage(self):
-        return "ui/resources/placeholder.png"
+        return "ui\\resources/placeholder.png"
     
-
-
-test_item = Item(10101, "test_item_name", "test_item_category")

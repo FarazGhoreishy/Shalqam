@@ -23,10 +23,11 @@ class User:
         user_info = cursor.fetchone()
         cursor.close()
         db.database.close()
+        
+        if user_info is None or user_info[0] is None:
+                raise ValueError("Invalid Login Credentials")
 
-        if user_info[0] is None:
-            raise ValueError("Invalid Login Credentials")
-                
+               
         user = cls(*user_info)
         return user
     
@@ -34,6 +35,9 @@ class User:
     def signup(cls, first_name, last_name, username, email, password, repeat_password):
         if not User.password_validation(password, repeat_password):
             raise ValueError("Passwords dont match")
+        
+        if not User.user_info_validation(first_name, last_name, username, email):
+            raise ValueError("Invalid SignUp Credentials")
         
         hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
@@ -47,7 +51,7 @@ class User:
             raise ValueError("This Username is taken")
         
         cursor.close()
-        db.database.cloes()
+        db.database.close()
 
         user = cls(cursor.lastrowid, first_name, last_name, username, email)
         return user
@@ -56,6 +60,13 @@ class User:
     def password_validation(password, repeatpassword):
         return password == repeatpassword
     
+    @staticmethod
+    def user_info_validation(*args):
+        for arg in args:
+            if len(arg) == 0:
+                return False
+        return True
+
     def __str__(self) -> str:
         return f"User({self.username}, {self.user_id})"
 
