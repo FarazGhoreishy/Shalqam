@@ -19,7 +19,7 @@ class Ui_Dialog(object):
         # font setting for name buttons and labels
         label_font = QtGui.QFont()
         label_font.setFamily("Josefin Slab")
-        label_font.setPointSize(22)
+        label_font.setPointSize(18)
 
         # Creating category label at the top of the page
         self.category_label = QtWidgets.QLabel(Dialog)
@@ -48,6 +48,7 @@ class Ui_Dialog(object):
         # Creating grid layout for items
         self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout.setObjectName("gridLayout")
+        self.gridLayout.setSizeConstraint(400)
 
         self.item_name_buttons = []
         
@@ -60,12 +61,13 @@ class Ui_Dialog(object):
             
             item_name_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
             item_name_button.setFont(label_font)
-            item_name_button.setStyleSheet("QPushButton{ border-style: none;}")
-            item_name_button.setText(_translate("Dialog", item.name))
-
-            item_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-            item_label.setPixmap(QtGui.QPixmap(item.getImage()))
+            item_name_button.setStyleSheet("QPushButton{ border-style: none;  text-align: center}")
+            item_name_button.setText(item.name)
             
+            item_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+            item_label.setPixmap(QtGui.QPixmap(item.getImage()).scaled(170, 230))
+            item_label.setAlignment(QtCore.Qt.AlignCenter)
+
             item_price_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
             item_price_label.setFont(label_font)
             item_price_label.setText(_translate("Dialog", str(item.price)))

@@ -319,6 +319,11 @@
                <string>Model 8</string>
               </property>
              </column>
+             <item row="2" column="0">
+              <property name="flags">
+               <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsDropEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+              </property>
+             </item>
             </widget>
            </item>
           </layout>

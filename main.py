@@ -1,7 +1,9 @@
 import sys
 
 from PyQt5 import QtGui
-from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QMessageBox
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QMessageBox, QTableWidgetItem, QLabel, QSizePolicy, QVBoxLayout
+from PyQt5.QtWidgets import QPushButton, QLabel, QAbstractScrollArea, QToolButton
 
 from ui_main_window import Ui_MainWindow as Main_Ui_Window
 from ui_login import Ui_Dialog as  Login_Ui_Dialog
@@ -22,6 +24,7 @@ class Window(QMainWindow, Main_Ui_Window):
         self.connectSignalsSlots()
         self.favorites_pushButton.hide()
         self.logout_pushButton.hide()
+        self.fillCategoryTables()
 
     def getCategories(self):
         db = Database()
@@ -81,6 +84,41 @@ class Window(QMainWindow, Main_Ui_Window):
             self.signup_pushButton.show()
             self.favorites_pushButton.hide()
             self.logout_pushButton.hide()
+
+    def fillCategoryTables(self):
+        
+        for i in range(len(self.category_tableWidgets)):
+            category_name = self.category_names[i]
+            category_tableWidget = self.category_tableWidgets[i]
+            
+            category_object = CategoryWindow(category_name)
+            items = category_object.getItems()
+
+            label_font = QtGui.QFont()
+            label_font.setFamily("Josefin Slab")
+            label_font.setPointSize(16)
+            
+            for column_number, item in enumerate(items):
+                # insert item name
+                item_name_button = QPushButton()
+                item_name_button.setFont(label_font)
+                item_name_button.setStyleSheet("QPushButton{ border-style: none;  text-align: center}")
+                item_name_button.setText(item.name)
+                category_tableWidget.setCellWidget(0, column_number, item_name_button)
+
+                # insert item image
+                item_image_label = QLabel()
+                item_image_label.setPixmap(QtGui.QPixmap(item.getImage()).scaled(120, 160))
+                item_image_label.setAlignment(Qt.AlignCenter)
+                category_tableWidget.setCellWidget(1, column_number, item_image_label)
+
+                # insert item price
+                price_entry = QTableWidgetItem(str(item.price))
+                price_entry.setTextAlignment(Qt.AlignCenter)
+                price_entry.setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsDropEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled)
+                category_tableWidget.setItem(2, column_number, price_entry)
+
+            category_tableWidget.resizeRowsToContents() 
 
     def showFavorites(Self):
         pass

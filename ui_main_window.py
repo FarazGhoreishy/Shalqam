@@ -34,7 +34,6 @@ class Ui_MainWindow(object):
 
         self.shalqam_label.setSizePolicy(sizePolicy)
         self.shalqam_label.setMaximumSize(QtCore.QSize(30, 30))
-        self.shalqam_label.setText("")
         self.shalqam_label.setPixmap(QtGui.QPixmap("ui\\resources/shalqam.png"))
         self.shalqam_label.setScaledContents(True)
         self.shalqam_label.setObjectName("shalqam_label")
@@ -70,13 +69,6 @@ class Ui_MainWindow(object):
         self.favorites_pushButton.setStyleSheet("QPushButton{ padding: 0 20px; width: 100%; height: 50px; background-color: #57b846; border-radius: 25px; color: #fff; line-height: 1.2;}")
         self.favorites_pushButton.setObjectName("favorites_pushButton")
 
-        # self.stackedWidget_1 = QtWidgets.QStackedWidget(self.centralwidget)
-        # self.stackedWidget_1.addWidget(self.login_pushButton)
-        # self.stackedWidget_1.addWidget(self.favorites_pushButton)
-        # self.stackedWidget_1.setCurrentIndex(1)
-
-        # self.horizontalLayout_2.addWidget(self.stackedWidget_1)
-
         self.horizontalLayout_2.addWidget(self.login_pushButton)
         self.horizontalLayout_2.addWidget(self.favorites_pushButton)
         
@@ -100,12 +92,6 @@ class Ui_MainWindow(object):
         self.logout_pushButton.setStyleSheet("QPushButton{ padding: 0 20px; width: 100%; height: 50px; background-color: #57b846; border-radius: 25px; color: #fff; line-height: 1.2;}")
         self.logout_pushButton.setObjectName("logout_pushButton")
 
-        # self.stackedWidget_2 = QtWidgets.QStackedWidget(self.centralwidget)
-        # self.stackedWidget_2.addWidget(self.signup_pushButton)
-        # self.stackedWidget_2.addWidget(self.logout_pushButton)
-        # self.stackedWidget_2.setCurrentIndex(1)
-
-        # self.horizontalLayout_2.addWidget(self.stackedWidget_2)
         self.horizontalLayout_2.addWidget(self.signup_pushButton)
         self.horizontalLayout_2.addWidget(self.logout_pushButton)
 
@@ -165,7 +151,7 @@ class Ui_MainWindow(object):
 
         self.search_lineEdit = QtWidgets.QLineEdit(self.groupBox)
         font = QtGui.QFont()
-        font.setFamily("MS Shell Dlg 2")
+        font.setFamily("Josefin Slab")
         font.setPointSize(14)
         self.search_lineEdit.setFont(font)
         self.search_lineEdit.setStyleSheet("")
@@ -194,31 +180,19 @@ class Ui_MainWindow(object):
                 category_tableWidget.setLayoutDirection(QtCore.Qt.RightToLeft)
                 category_tableWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
                 category_tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-                category_tableWidget.setShowGrid(True)
+                category_tableWidget.setShowGrid(False)
                 category_tableWidget.setObjectName(f"{category}_tableWidget")
                 category_tableWidget.setColumnCount(10)
                 category_tableWidget.setRowCount(3)
 
-
-                for i in range(3):
-                     item = QtWidgets.QTableWidgetItem()
-                     category_tableWidget.setVerticalHeaderItem(i, item)
-                
-
-                for i in range(10):
-                     item = QtWidgets.QTableWidgetItem()
-                     category_tableWidget.setHorizontalHeaderItem(i, item)
-
-                category_tableWidget.horizontalHeader().setVisible(True)
-                category_tableWidget.verticalHeader().setVisible(True)
+                category_tableWidget.horizontalHeader().setVisible(False)
+                category_tableWidget.verticalHeader().setVisible(False)
 
                 self.category_labels.append(category_label)
                 self.category_tableWidgets.append(category_tableWidget)
 
-
                 self.verticalLayout_3.addWidget(self.category_labels[-1])
                 self.verticalLayout_3.addWidget(self.category_tableWidgets[-1])
-        
         
         self.verticalLayout_2.addWidget(self.frame)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -232,7 +206,6 @@ class Ui_MainWindow(object):
         self.menuCategories.setObjectName("menuCategories")
         MainWindow.setMenuBar(self.menubar)
         
-
         self.action_categories = []
 
         for category in categories:
@@ -270,16 +243,6 @@ class Ui_MainWindow(object):
         for i in range(len(self.category_labels)):
                 self.category_labels[i].setText(_translate("MainWindow", f" {self.category_names[i]}"))
                 
-                headers = ["modelName", "image", "price"]
-                for j in range(3):
-                     item = self.category_tableWidgets[i].verticalHeaderItem(j)
-                     item.setText(_translate("MainWindow", headers[j]))
-
-                
-                for j in range(10):
-                     item = self.category_tableWidgets[i].horizontalHeaderItem(j)
-                     item.setText(_translate("MainWindow", f"Model {j}"))
-
         self.menuCategories.setTitle(_translate("MainWindow", "Categories"))
 
         for i in range(len(self.action_categories)):
