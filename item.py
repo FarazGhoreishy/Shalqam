@@ -55,11 +55,13 @@ class Item:
         cursor.execute(query, [self.item_id])
         links = cursor.fetchall()
         
+        links = [link[0] for link in links]
         return links
     
     def getImagesFromLinks(self):
         '''returns a list containing images obtained from item links'''
         links = self.getLinks()
+        return ["ui\\resources/placeholder.png", "ui\\resources/placeholder.png"]
 
     def getPricesFromLinks(self):
         '''returns a list of prices registered for an item from links'''
@@ -72,4 +74,5 @@ class Item:
         return min(self.getPricesFromLinks())
     
     def getImage(self):
+        '''returns an image of the item from one of the links'''
         return "ui\\resources/placeholder.png"

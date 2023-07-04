@@ -90,7 +90,13 @@ class User:
         db = Database()
         cursor = db.database.cursor()
         query = "INSERT INTO favorites (user_id, item_id) VALUES (%s, %s)"
+        
+        print("user_id, item_id", self.user_id, item_id)
+
         cursor.execute(query, [self.user_id, item_id])
+
         db.database.commit()
         cursor.close()
         db.database.close()
+
+        print("Done maybe?")

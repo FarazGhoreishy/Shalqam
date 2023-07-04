@@ -3,14 +3,15 @@ import typing
 
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QMessageBox, QTableWidgetItem, QLabel, QSizePolicy, QVBoxLayout, QWidget
-from PyQt5.QtWidgets import QPushButton, QLabel, QAbstractScrollArea, QToolButton
+from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QMessageBox, QTableWidgetItem, QLabel
+from PyQt5.QtWidgets import QPushButton, QLabel
 
 from ui_main_window import Ui_MainWindow as Main_Ui_Window
 from ui_login import Ui_Dialog as  Login_Ui_Dialog
 from ui_signup import Ui_Dialog as SignUP_Ui_Dialog
 from ui_category import Ui_Dialog as Category_Ui_Dialog
 from ui_item import Ui_Dialog as Item_Ui_Dialog
+from ui_favorites import Ui_Dialog as Favorite_Ui_Dialog
 
 from user import User
 from item import Item
@@ -44,7 +45,7 @@ class Window(QMainWindow, Main_Ui_Window):
         self.message_pushButton.clicked.connect(self.executeLogin)
         self.login_pushButton.clicked.connect(self.executeLogin)
         self.signup_pushButton.clicked.connect(self.executeSignUp)
-        self.favorites_pushButton.clicked.connect(self.showFavorites)
+        self.favorites_pushButton.clicked.connect(self.executeFavorites)
         self.logout_pushButton.clicked.connect(self.executeLogout)
 
         for i in range(len(self.action_categories)):
@@ -108,6 +109,8 @@ class Window(QMainWindow, Main_Ui_Window):
                 item_name_button.setText(item.name)
                 category_tableWidget.setCellWidget(0, column_number, item_name_button)
 
+                item_name_button.clicked.connect(self.createItemFunction(item.name))
+
                 # insert item image
                 item_image_label = QLabel()
                 item_image_label.setPixmap(QtGui.QPixmap(item.getImage()).scaled(120, 160))
@@ -122,8 +125,9 @@ class Window(QMainWindow, Main_Ui_Window):
 
             category_tableWidget.resizeRowsToContents() 
 
-    def showFavorites(Self):
-        pass
+    def executeFavorites(Self):
+        dialog = FavoriteWindow()
+        dialog.exec()
 
     def createCategoryFucntion(self, category_name):
 
@@ -132,6 +136,14 @@ class Window(QMainWindow, Main_Ui_Window):
             dialog.exec()
 
         return executeCategory
+    
+    def createItemFunction(self, item_name):
+
+        def executeItem(self):
+            dialog = ItemWindow(item_name)
+            dialog.exec()
+
+        return executeItem
     
 class LoginDialog(QDialog, Login_Ui_Dialog):
     def __init__(self, parent = None):
@@ -152,7 +164,6 @@ class LoginDialog(QDialog, Login_Ui_Dialog):
 
         try:
             Window.user = User.login(*user_inputs)
-            print(Window.user)
             self.close()
         
         except ValueError as error_message:
@@ -188,7 +199,6 @@ class SignUpDialog(QDialog, SignUP_Ui_Dialog):
 
         try:
             user = User.signup(*user_inputs)
-            print(user)
         
         except ValueError as error_message:
             msg = QMessageBox()
@@ -220,25 +230,57 @@ class CategoryWindow(QDialog, Category_Ui_Dialog):
 
         item_ids = [item[0] for item in items]
         items = [Item.load(item_id) for item_id in item_ids]
-        print(items)
         return items
 
 class ItemWindow(QDialog, Item_Ui_Dialog):
     def __init__(self, item_name, parent = None):
         super().__init__(parent)
         self.item_name = item_name
-        self.setupUi(self)
+        self.createTableInfo()
+        self.setupUi(self, item_name, self.image_list, self.links, self.price_list)
+        self.connectSignalsSlots()
 
-    def createTable(self):
+    def connectSignalsSlots(self):
+        self.favorite_pushButton.clicked.connect(self.executeFavorite)
+
+    def createTableInfo(self):
         db = Database()
         cursor = db.database.cursor()
-        query = "SELECT item_id, name, category FROM items WHERE item_name = %s"
+        query = "SELECT item_id, name, category FROM items WHERE name = %s"
         cursor.execute(query, [self.item_name])
         item_info = cursor.fetchone()
         
-        item = Item.load(*item_info)
-        links = item.getLinks()
-        
+        self.item = Item(*item_info)
+
+        self.links = self.item.getLinks()
+        self.image_list = self.item.getImagesFromLinks()
+        self.price_list = self.item.getPricesFromLinks()
+
+    def executeFavorite(self):
+
+        if Window.user is None:
+            msg = QMessageBox()
+
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap("ui\\resources/shalqam.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            msg.setWindowIcon(icon)
+
+            msg.setIcon(QMessageBox.Critical)
+            msg.setWindowTitle("Shalqam - User Error")
+            msg.setText("You Need to Login to Save Your Favorites.")
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec()
+
+        else:
+            Window.user.addFavorite(self.item.item_id)
+            print("Successful?", Window.user)
+
+class FavoriteWindow(QDialog, Favorite_Ui_Dialog):
+    def __init__(self, parent = None):
+        super().__init__(parent)
+        self.setupUi(self, Window.user, Window.user.getFavorites())
+
+
 
 if __name__ == "__main__":
 
