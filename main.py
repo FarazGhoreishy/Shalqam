@@ -1,14 +1,16 @@
 import sys
+import typing
 
-from PyQt5 import QtGui
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QMessageBox, QTableWidgetItem, QLabel, QSizePolicy, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QMessageBox, QTableWidgetItem, QLabel, QSizePolicy, QVBoxLayout, QWidget
 from PyQt5.QtWidgets import QPushButton, QLabel, QAbstractScrollArea, QToolButton
 
 from ui_main_window import Ui_MainWindow as Main_Ui_Window
 from ui_login import Ui_Dialog as  Login_Ui_Dialog
 from ui_signup import Ui_Dialog as SignUP_Ui_Dialog
 from ui_category import Ui_Dialog as Category_Ui_Dialog
+from ui_item import Ui_Dialog as Item_Ui_Dialog
 
 from user import User
 from item import Item
@@ -220,8 +222,24 @@ class CategoryWindow(QDialog, Category_Ui_Dialog):
         items = [Item.load(item_id) for item_id in item_ids]
         print(items)
         return items
-    
-    
+
+class ItemWindow(QDialog, Item_Ui_Dialog):
+    def __init__(self, item_name, parent = None):
+        super().__init__(parent)
+        self.item_name = item_name
+        self.setupUi(self)
+
+    def createTable(self):
+        db = Database()
+        cursor = db.database.cursor()
+        query = "SELECT item_id, name, category FROM items WHERE item_name = %s"
+        cursor.execute(query, [self.item_name])
+        item_info = cursor.fetchone()
+        
+        item = Item.load(*item_info)
+        links = item.getLinks()
+        
+
 if __name__ == "__main__":
 
     app = QApplication(sys.argv)

@@ -31,7 +31,7 @@ class Item:
     def load(cls, item_id):
         db = Database()
         cursor = db.database.cursor()
-        query = "SELECT * FROM items WHERE item_id = %s"
+        query = "SELECT item_id, name, category FROM items WHERE item_id = %s"
         cursor.execute(query, [item_id])
         item_info = cursor.fetchone()
 
@@ -48,6 +48,7 @@ class Item:
         return f"Item({self.name}, {self.item_id})" 
     
     def getLinks(self):
+        '''returns a list of links registered for a particular item'''
         db = Database()
         cursor = db.database.cursor()
         query = "SELECT link FROM links WHERE item_id = %s"
@@ -56,10 +57,19 @@ class Item:
         
         return links
     
+    def getImagesFromLinks(self):
+        '''returns a list containing images obtained from item links'''
+        links = self.getLinks()
+
+    def getPricesFromLinks(self):
+        '''returns a list of prices registered for an item from links'''
+        links = self.getLinks()
+        return [100, 110]
+    
     @property
     def price(self):
-        return 100
+        '''returns the least price for a item from all prices available in the links'''
+        return min(self.getPricesFromLinks())
     
     def getImage(self):
         return "ui\\resources/placeholder.png"
-    
