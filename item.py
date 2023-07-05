@@ -1,18 +1,22 @@
 from database import Database
+from webdriver import Webdriver
+from selenium.webdriver.common.by import By
+import requests
 
 class Item:
 
-    def __init__(self, item_id, name, category):
+    def __init__(self, item_id, name, category, main_link):
         self.item_id = item_id
         self.name = name
         self.category = category
+        self.main_link = main_link
 
     @classmethod
-    def register(cls, name, category, links):
+    def register(cls, name, category, links, main_link):
         db = Database()
         cursor = db.database.cursor()
-        query = "INSERT INTO items (name, category) VALUES (%s, %s)"
-        cursor.execute(query, [name, category])
+        query = "INSERT INTO items (name, category, main_link) VALUES (%s, %s, %s)"
+        cursor.execute(query, [name, category, main_link])
         db.database.commit()
         item_id = cursor.lastrowid
 
@@ -22,16 +26,16 @@ class Item:
         
         db.database.commit()
         cursor.close()
-        db.database.cloes()
+        db.database.close()
         
-        item = cls(item_id, name, category)
+        item = cls(item_id, name, category, main_link)
         return item
     
     @classmethod
     def load(cls, item_id):
         db = Database()
         cursor = db.database.cursor()
-        query = "SELECT item_id, name, category FROM items WHERE item_id = %s"
+        query = "SELECT item_id, name, category, main_link FROM items WHERE item_id = %s"
         cursor.execute(query, [item_id])
         item_info = cursor.fetchone()
 
@@ -60,19 +64,71 @@ class Item:
     
     def getImagesFromLinks(self):
         '''returns a list containing images obtained from item links'''
-        links = self.getLinks()
-        return ["ui\\resources/placeholder.png", "ui\\resources/placeholder.png"]
+        wd = Webdriver()
+        wd.driver.get(self.main_link)
+
+        shop_image_elements = wd.driver.find_elements(By.CLASS_NAME, "shop-logo")
+        
+        shop_images = []
+        shop_names = []
+        for shop_image_element in shop_image_elements:
+            url = shop_image_element.get_attribute('src')
+            
+            shop_name = shop_image_element.get_attribute('alt')
+            shop_names.append(shop_name)
+
+            try:
+                image = requests.get(url).content
+            except:
+                url = shop_image_element.get_attribute('data-lazysrc')
+                image = requests.get(url).content
+
+            shop_images.append(image)
+
+        return zip(shop_images, shop_names)
 
     def getPricesFromLinks(self):
         '''returns a list of prices registered for an item from links'''
-        links = self.getLinks()
-        return [100, 110]
+        wd = Webdriver()
+        wd.driver.get(self.main_link)
+
+        shop_price_elements = wd.driver.find_elements(By.CLASS_NAME, "shop-price")
+
+        shop_prices = []
+        for shop_price_element in shop_price_elements:
+            shop_prices.append(shop_price_element.text)
+
+        shop_prices = [shop_price.split('\n')[-1] for shop_price in shop_prices]
+        
+        wd.driver.quit()
+        return shop_prices
     
     @property
     def price(self):
         '''returns the least price for a item from all prices available in the links'''
-        return min(self.getPricesFromLinks())
+        print("...Getting Price...")
+        wd = Webdriver()
+        wd.driver.get(self.main_link)
+
+        price_element = wd.driver.find_element(By.CLASS_NAME, "shop-price")
+        price_text = price_element.text
+        price = price_text.split('\n')[-1]
+        wd.driver.quit()
+        print("...Got Price...")
+        return price
+
     
     def getImage(self):
-        '''returns an image of the item from one of the links'''
-        return "ui\\resources/placeholder.png"
+        '''returns an image of the item from the main link'''
+        
+        print("...Getting Image...")
+        wd = Webdriver()
+        wd.driver.get(self.main_link)
+
+        item_image_element = wd.driver.find_element(By.ID, "ContentPlaceHolder1_rptMainSlider_ImgSlideItem_0")
+        item_image_url = item_image_element.get_attribute('src')
+        item_image = requests.get(item_image_url).content
+
+        wd.driver.quit()
+        print("...Got Image...")
+        return item_image

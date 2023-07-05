@@ -102,6 +102,9 @@ class Window(QMainWindow, Main_Ui_Window):
             label_font.setPointSize(16)
             
             for column_number, item in enumerate(items):
+                if column_number == 10:
+                    break
+                
                 # insert item name
                 item_name_button = QPushButton()
                 item_name_button.setFont(label_font)
@@ -113,7 +116,10 @@ class Window(QMainWindow, Main_Ui_Window):
 
                 # insert item image
                 item_image_label = QLabel()
-                item_image_label.setPixmap(QtGui.QPixmap(item.getImage()).scaled(120, 160))
+
+                item_pixmap = QtGui.QPixmap()
+                item_pixmap.loadFromData(item.getImage())
+                item_image_label.setPixmap(item_pixmap.scaled(120, 160))
                 item_image_label.setAlignment(Qt.AlignCenter)
                 category_tableWidget.setCellWidget(1, column_number, item_image_label)
 
@@ -246,7 +252,7 @@ class ItemWindow(QDialog, Item_Ui_Dialog):
     def createTableInfo(self):
         db = Database()
         cursor = db.database.cursor()
-        query = "SELECT item_id, name, category FROM items WHERE name = %s"
+        query = "SELECT item_id, name, category, main_link FROM items WHERE name = %s"
         cursor.execute(query, [self.item_name])
         item_info = cursor.fetchone()
         

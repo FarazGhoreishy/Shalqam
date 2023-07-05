@@ -65,7 +65,10 @@ class Ui_Dialog(object):
             item_name_button.setText(item.name)
             
             item_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-            item_label.setPixmap(QtGui.QPixmap(item.getImage()).scaled(170, 230))
+
+            item_qpixmap = QtGui.QPixmap()
+            item_qpixmap.loadFromData(item.getImage())
+            item_label.setPixmap(item_qpixmap.scaled(170, 230))
             item_label.setAlignment(QtCore.Qt.AlignCenter)
 
             item_price_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
