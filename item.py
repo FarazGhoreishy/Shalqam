@@ -5,18 +5,19 @@ import requests
 
 class Item:
 
-    def __init__(self, item_id, name, category, main_link):
+    def __init__(self, item_id, name, category, main_link, price):
         self.item_id = item_id
         self.name = name
         self.category = category
         self.main_link = main_link
+        self.price = price
 
     @classmethod
-    def register(cls, name, category, links, main_link):
+    def register(cls, name, category, links, main_link, price):
         db = Database()
         cursor = db.database.cursor()
-        query = "INSERT INTO items (name, category, main_link) VALUES (%s, %s, %s)"
-        cursor.execute(query, [name, category, main_link])
+        query = "INSERT INTO items (name, category, main_link, price) VALUES (%s, %s, %s, %s)"
+        cursor.execute(query, [name, category, main_link, price])
         db.database.commit()
         item_id = cursor.lastrowid
 
@@ -28,14 +29,14 @@ class Item:
         cursor.close()
         db.database.close()
         
-        item = cls(item_id, name, category, main_link)
+        item = cls(item_id, name, category, main_link, price)
         return item
     
     @classmethod
     def load(cls, item_id):
         db = Database()
         cursor = db.database.cursor()
-        query = "SELECT item_id, name, category, main_link FROM items WHERE item_id = %s"
+        query = "SELECT item_id, name, category, main_link, price FROM items WHERE item_id = %s"
         cursor.execute(query, [item_id])
         item_info = cursor.fetchone()
 
@@ -103,21 +104,7 @@ class Item:
         wd.driver.quit()
         return shop_prices
     
-    @property
-    def price(self):
-        '''returns the least price for a item from all prices available in the links'''
-        print("...Getting Price...")
-        wd = Webdriver()
-        wd.driver.get(self.main_link)
-
-        price_element = wd.driver.find_element(By.CLASS_NAME, "shop-price")
-        price_text = price_element.text
-        price = price_text.split('\n')[-1]
-        wd.driver.quit()
-        print("...Got Price...")
-        return price
-
-    
+   
     def getImage(self):
         '''returns an image of the item from the main link'''
         

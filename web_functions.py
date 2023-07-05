@@ -19,15 +19,19 @@ class WebFunctions:
         wd.driver.implicitly_wait(5)
 
         product_elements = list(wd.driver.find_elements(By.CLASS_NAME, "item-title"))
+        price_elements = list(wd.driver.find_elements(By.CLASS_NAME, "price-box"))
 
-        for product_element in product_elements[:4]:
+        for product_element, price_element in list(zip(product_elements, price_elements))[:4]:
+
+            product_price = price_element.find_element(By.CLASS_NAME, "prd-price").text[:-6]
+            print(product_price)
+
             product_element = product_element.find_element(By.CLASS_NAME, "prd-name")
-                
-            # product_name = product_element.get_attribute('title')
+             
             product_link = product_element.get_attribute('href')
 
             product_info = WebFunctions.getProductInfo(product_link)
-            Item.register(*product_info)
+            Item.register(*product_info, product_price)
 
     @staticmethod
     def getProductInfo(product_link):
@@ -41,10 +45,6 @@ class WebFunctions:
         name = category_breadcrumb[-1]
         category = category_breadcrumb[2]
         
-        shops = wd.driver.find_elements(By.CLASS_NAME, "shop-description")
-
-        # print("Shop Count :", len(shops))
-
         shop_links = []
         for i in range(5):
             try:
@@ -54,8 +54,9 @@ class WebFunctions:
                 shop_links.append(shop_link_url)
             except:
                 break
+
         return [name, category, shop_links, product_link]
 
-
-se = "هدست گیمینگ"
-WebFunctions.search_web(se)
+if __name__ == "__main__":
+    se = "هدست گیمینگ"
+    WebFunctions.search_web(se)
