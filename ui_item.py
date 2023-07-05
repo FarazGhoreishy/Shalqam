@@ -2,29 +2,55 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 
 class Ui_Dialog(object):
-    def setupUi(self, Dialog, item_name, images, links, prices):
+    def setupUi(self, Dialog, category_name, item_name, item_image, shop_images, shop_names, shop_prices):
         Dialog.setObjectName("Dialog")
         Dialog.setFixedSize(860, 770)
 
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("ui\\resources/shalqam.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
-
         self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout.setObjectName("verticalLayout")
 
-        self.item_label = QtWidgets.QLabel(Dialog)
-
+        self.category_label = QtWidgets.QLabel(Dialog)
         font = QtGui.QFont()
         font.setFamily("Josefin Slab")
         font.setPointSize(28)
         font.setBold(True)
+        font.setWeight(75)
+        self.category_label.setFont(font)
+        self.category_label.setStyleSheet("QLabel{ width: 100%; height: 55px; background-color: #57b846; border-radius: 15px; padding: 0 35px 0 35px; color: #fff; line-height: 1.2;}")
+        self.category_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.category_label.setObjectName("category_label")
 
+        self.item_label = QtWidgets.QLabel(Dialog)
+        font = QtGui.QFont()
+        font.setFamily("Josefin Slab")
+        font.setPointSize(28)
+        font.setBold(True)
+        font.setWeight(75)
         self.item_label.setFont(font)
         self.item_label.setStyleSheet("QLabel{ width: 100%; height: 55px; background-color: #CA80DC; border-radius: 15px; padding: 0 35px 0 35px; color: #fff; line-height: 1.2;}")
         self.item_label.setAlignment(QtCore.Qt.AlignCenter)
         self.item_label.setObjectName("item_label")
+
+
+        self.item_image_label = QtWidgets.QLabel(Dialog)
+        self.item_image_label.setStyleSheet("QLabel{ background-color: rgb(254, 254, 254); border-color: rgb(0, 0, 0); border-width: 5px; border-style: solid; border-radius: 15px;}")
+        self.item_image_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.item_image_label.setObjectName("item_image_label")
+        
+        qpixmap = QtGui.QPixmap()
+        qpixmap.loadFromData(item_image)
+        self.item_image_label.setPixmap(qpixmap)
+
+        self.verticalLayout.addWidget(self.category_label)
         self.verticalLayout.addWidget(self.item_label)
+        self.verticalLayout.addWidget(self.item_image_label)
+
+        ###########
+        ## Table ##
+        ###########
 
         self.tableWidget = QtWidgets.QTableWidget(Dialog)
         self.tableWidget.setObjectName("tableWidget")
@@ -38,21 +64,24 @@ class Ui_Dialog(object):
         self.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         
         self.item_link_buttons = []
-        for row_number, link in enumerate(links):
+        for row_number, name in enumerate(shop_names):
             self.tableWidget.insertRow(row_number)
 
             item_image_label = QtWidgets.QLabel()
-            item_image_label.setPixmap(QtGui.QPixmap(images[row_number]).scaled(120, 160))
-            item_image_label.setAlignment(Qt.AlignCenter)
+
+            item_qpixmap = QtGui.QPixmap()
+            item_qpixmap.loadFromData(shop_images[row_number])
+            item_image_label.setPixmap(item_qpixmap.scaled(110, 50))
+            item_image_label.setAlignment(QtCore.Qt.AlignCenter)
 
             item_link_button = QtWidgets.QToolButton()
             item_link_button.setFont(label_font)
             item_link_button.setStyleSheet("QPushButton{ border-style: none;  text-align: center}")
-            item_link_button.setText(link)
+            item_link_button.setText(name)
             self.item_link_buttons.append(item_link_button)
 
-            item_price_entry = QtWidgets.QTableWidgetItem(str(prices[row_number]))
-            item_price_entry.setTextAlignment(Qt.AlignCenter)
+            item_price_entry = QtWidgets.QTableWidgetItem(str(shop_prices[row_number]))
+            item_price_entry.setTextAlignment(QtCore.Qt.AlignCenter)
             item_price_entry.setFont(label_font)
             item_price_entry.setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsDropEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled)
 
@@ -62,7 +91,7 @@ class Ui_Dialog(object):
 
         self.tableWidget.horizontalHeader().setVisible(False)
         self.tableWidget.verticalHeader().setVisible(False)
-        self.tableWidget.verticalHeader().setDefaultSectionSize(200)
+        self.tableWidget.verticalHeader().setDefaultSectionSize(100)
         self.tableWidget.horizontalHeader().setDefaultSectionSize(270)
         self.verticalLayout.addWidget(self.tableWidget)
 
@@ -81,21 +110,22 @@ class Ui_Dialog(object):
         
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Shalqam - Item Page"))
+
+        self.category_label.setText(_translate("Dialog", f"{category_name}"))
+        
         self.item_label.setText(_translate("Dialog", f"{item_name}"))
+        self.item_label.setWordWrap(True)
+        
         self.favorite_pushButton.setText(_translate("Dialog", "Add to Favorites"))
-        QtCore.QMetaObject.connectSlotsByName(Dialog)       
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
     ui = Ui_Dialog()
-
-    images = ['ui\\resources/placeholder.png', 'ui\\resources/placeholder.png']
-    links = ["'faraz_link_1'", "'faraz_link_2'"]
-    prices = [100, 110]
-
-
-    ui.setupUi(Dialog, "faraz", images, links, prices)
+    ui.setupUi(Dialog)
     Dialog.show()
     sys.exit(app.exec_())
