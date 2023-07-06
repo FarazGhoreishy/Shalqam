@@ -8,13 +8,13 @@ from PyQt5.QtWidgets import QPushButton, QLabel
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
-from ui_main_window import Ui_MainWindow as Main_Ui_Window
-from ui_login import Ui_Dialog as  Login_Ui_Dialog
-from ui_signup import Ui_Dialog as SignUP_Ui_Dialog
-from ui_category import Ui_Dialog as Category_Ui_Dialog
-from ui_item import Ui_Dialog as Item_Ui_Dialog
-from ui_favorites import Ui_Dialog as Favorite_Ui_Dialog
-from ui_search import Ui_Dialog as Search_Ui_Dialog
+from ui_files.ui_main_window import Ui_MainWindow as Main_Ui_Window
+from ui_files.ui_login import Ui_Dialog as  Login_Ui_Dialog
+from ui_files.ui_signup import Ui_Dialog as SignUP_Ui_Dialog
+from ui_files.ui_category import Ui_Dialog as Category_Ui_Dialog
+from ui_files.ui_item import Ui_Dialog as Item_Ui_Dialog
+from ui_files.ui_favorites import Ui_Dialog as Favorite_Ui_Dialog
+from ui_files.ui_search import Ui_Dialog as Search_Ui_Dialog
 
 from user import User
 from item import Item
@@ -222,7 +222,22 @@ class SignUpDialog(QDialog, SignUP_Ui_Dialog):
 
         try:
             user = User.signup(*user_inputs)
-        
+
+            msg = QMessageBox()
+
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap("ui\\resources/shalqam.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            msg.setWindowIcon(icon)
+
+            msg.setIcon(QMessageBox.Information)
+            msg.setWindowTitle("Shalqam - SignUp")
+            msg.setText("Signed Up Successfully!")
+            msg.setStandardButtons(QMessageBox.Ok)
+            reply = msg.exec()
+
+            if reply == QMessageBox.Ok:
+                self.close()
+
         except ValueError as error_message:
             msg = QMessageBox()
 
@@ -234,6 +249,7 @@ class SignUpDialog(QDialog, SignUP_Ui_Dialog):
             msg.setWindowTitle("SignUp Error")
             msg.setText(str(error_message))
             msg.exec()
+        
 
 class CategoryWindow(QDialog, Category_Ui_Dialog):
     def __init__(self, category_name, parent = None):
