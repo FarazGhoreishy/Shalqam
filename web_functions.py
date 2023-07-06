@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from webdriver import Webdriver
 from item import Item
 from time import sleep
+from database import Database
 
 class WebFunctions:
     @staticmethod
@@ -22,6 +23,7 @@ class WebFunctions:
         product_elements = list(wd.driver.find_elements(By.CLASS_NAME, "item-title"))
         price_elements = list(wd.driver.find_elements(By.CLASS_NAME, "price-box"))
 
+        items_found = []
         for product_element, price_element in list(zip(product_elements, price_elements))[:4]:
 
             product_price = price_element.find_element(By.CLASS_NAME, "prd-price").text[:-6]
@@ -31,10 +33,25 @@ class WebFunctions:
             product_link = product_element.get_attribute('href')
 
             product_info = WebFunctions.getProductInfo(product_link)
-            Item.register(*product_info, product_price)
 
+            product_name = product_info[0]
+            db = Database()
+            cursor = db.database.cursor()
+            query = "SELECT item_id FROM items WHERE name = %s"
+            cursor.execute(query, [product_name])
+
+            if query is None:
+                item = Item.register(*product_info, product_price)
+
+            else:
+                item_id = cursor.fetchone()[0]
+                item = Item.load(item_id)
+            
+            items_found.append(item)
+        
         wd.driver.quit()
-
+        return items_found
+    
     @staticmethod
     def getProductInfo(product_link):
 
