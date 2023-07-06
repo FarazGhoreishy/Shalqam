@@ -98,5 +98,3 @@ class User:
         db.database.commit()
         cursor.close()
         db.database.close()
-
-        print("Done maybe?")

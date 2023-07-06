@@ -2,6 +2,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from webdriver import Webdriver
 from item import Item
+from time import sleep
 
 class WebFunctions:
     @staticmethod
@@ -24,7 +25,6 @@ class WebFunctions:
         for product_element, price_element in list(zip(product_elements, price_elements))[:4]:
 
             product_price = price_element.find_element(By.CLASS_NAME, "prd-price").text[:-6]
-            print(product_price)
 
             product_element = product_element.find_element(By.CLASS_NAME, "prd-name")
              
@@ -33,9 +33,11 @@ class WebFunctions:
             product_info = WebFunctions.getProductInfo(product_link)
             Item.register(*product_info, product_price)
 
+        wd.driver.quit()
+
     @staticmethod
     def getProductInfo(product_link):
-        # print("This Link :", product_link)
+
         wd = Webdriver()
         wd.driver.get(product_link)
 
@@ -46,7 +48,7 @@ class WebFunctions:
         category = category_breadcrumb[2]
         
         shop_links = []
-        for i in range(5):
+        for i in range(3):
             try:
                 id = f"ContentPlaceHolder1_rptShops_hlkDescription_{i}"
                 shop_link_element = wd.driver.find_element(By.ID, id)
@@ -54,6 +56,8 @@ class WebFunctions:
                 shop_links.append(shop_link_url)
             except:
                 break
+
+        wd.driver.quit()
 
         return [name, category, shop_links, product_link]
 

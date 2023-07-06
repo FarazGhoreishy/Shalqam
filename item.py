@@ -1,7 +1,10 @@
 from database import Database
 from webdriver import Webdriver
 from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup
+
 import requests
+import inspect
 
 class Item:
 
@@ -86,7 +89,7 @@ class Item:
 
             shop_images.append(image)
 
-        return zip(shop_images, shop_names)
+        return list(zip(shop_images, shop_names))
 
     def getPricesFromLinks(self):
         '''returns a list of prices registered for an item from links'''
@@ -103,19 +106,21 @@ class Item:
         
         wd.driver.quit()
         return shop_prices
-    
-   
+      
     def getImage(self):
         '''returns an image of the item from the main link'''
         
-        print("...Getting Image...")
-        wd = Webdriver()
-        wd.driver.get(self.main_link)
+        # print("...Getting Image...")
+        
+        # previous_frame = inspect.currentframe().f_back
+        # print(inspect.getframeinfo(previous_frame))
 
-        item_image_element = wd.driver.find_element(By.ID, "ContentPlaceHolder1_rptMainSlider_ImgSlideItem_0")
-        item_image_url = item_image_element.get_attribute('src')
+        page = requests.get(self.main_link)
+        soup = BeautifulSoup(page.text, 'lxml')
+        item_image_element = soup.find("img", {"id" : "ContentPlaceHolder1_rptMainSlider_ImgSlideItem_0"})
+
+        item_image_url = item_image_element.get('src')
         item_image = requests.get(item_image_url).content
 
-        wd.driver.quit()
-        print("...Got Image...")
+        # print("...Got Image...")
         return item_image

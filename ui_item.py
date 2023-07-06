@@ -70,14 +70,14 @@ class Ui_Dialog(object):
             item_image_label = QtWidgets.QLabel()
 
             item_qpixmap = QtGui.QPixmap()
-            item_qpixmap.loadFromData(shop_images[row_number])
+            item_qpixmap.loadFromData(shop_images[row_number][0])
             item_image_label.setPixmap(item_qpixmap.scaled(110, 50))
             item_image_label.setAlignment(QtCore.Qt.AlignCenter)
 
             item_link_button = QtWidgets.QToolButton()
             item_link_button.setFont(label_font)
             item_link_button.setStyleSheet("QPushButton{ border-style: none;  text-align: center}")
-            item_link_button.setText(name)
+            item_link_button.setText(shop_images[row_number][1])
             self.item_link_buttons.append(item_link_button)
 
             item_price_entry = QtWidgets.QTableWidgetItem(str(shop_prices[row_number]))

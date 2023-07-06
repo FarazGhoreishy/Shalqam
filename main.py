@@ -1,10 +1,12 @@
 import sys
-import typing
 
-from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import QSize, Qt
+from PyQt5 import QtGui
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QMessageBox, QTableWidgetItem, QLabel
 from PyQt5.QtWidgets import QPushButton, QLabel
+
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 
 from ui_main_window import Ui_MainWindow as Main_Ui_Window
 from ui_login import Ui_Dialog as  Login_Ui_Dialog
@@ -16,6 +18,7 @@ from ui_favorites import Ui_Dialog as Favorite_Ui_Dialog
 from user import User
 from item import Item
 from database import Database
+from webdriver import Webdriver
 
 class Window(QMainWindow, Main_Ui_Window):
     user = None
@@ -94,8 +97,7 @@ class Window(QMainWindow, Main_Ui_Window):
             category_name = self.category_names[i]
             category_tableWidget = self.category_tableWidgets[i]
             
-            category_object = CategoryWindow(category_name)
-            items = category_object.getItems()
+            items = CategoryWindow.getItems(category_name)
 
             label_font = QtGui.QFont()
             label_font.setFamily("Josefin Slab")
@@ -110,6 +112,7 @@ class Window(QMainWindow, Main_Ui_Window):
                 item_name_button.setFont(label_font)
                 item_name_button.setStyleSheet("QPushButton{ border-style: none;  text-align: center}")
                 item_name_button.setText(item.name)
+                
                 category_tableWidget.setCellWidget(0, column_number, item_name_button)
 
                 item_name_button.clicked.connect(self.createItemFunction(item.name))
@@ -119,17 +122,19 @@ class Window(QMainWindow, Main_Ui_Window):
 
                 item_pixmap = QtGui.QPixmap()
                 item_pixmap.loadFromData(item.getImage())
-                item_image_label.setPixmap(item_pixmap.scaled(120, 160))
+                item_image_label.setPixmap(item_pixmap.scaled(180, 180))
                 item_image_label.setAlignment(Qt.AlignCenter)
                 category_tableWidget.setCellWidget(1, column_number, item_image_label)
 
                 # insert item price
-                price_entry = QTableWidgetItem(str(item.price))
+                price_entry = QTableWidgetItem(item.price)
                 price_entry.setTextAlignment(Qt.AlignCenter)
                 price_entry.setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsDropEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled)
                 category_tableWidget.setItem(2, column_number, price_entry)
 
-            category_tableWidget.resizeRowsToContents() 
+            # category_tableWidget.resizeRowsToContents() 
+            category_tableWidget.horizontalHeader().setDefaultSectionSize(180)
+            category_tableWidget.verticalHeader().setDefaultSectionSize(180)
 
     def executeFavorites(Self):
         dialog = FavoriteWindow()
@@ -222,14 +227,15 @@ class CategoryWindow(QDialog, Category_Ui_Dialog):
     def __init__(self, category_name, parent = None):
         super().__init__(parent)
         self.category_name = category_name
-        self.setupUi(self, category_name, self.getItems())
-
-        
-    def getItems(self):
+        self.items = CategoryWindow.getItems(self.category_name)
+        self.setupUi(self, category_name, self.items)
+    
+    @staticmethod
+    def getItems(category_name):
         db = Database()
         cursor = db.database.cursor()
         query = "SELECT item_id FROM items WHERE category = %s"
-        cursor.execute(query, [self.category_name])
+        cursor.execute(query, [category_name])
         items = cursor.fetchall()
         cursor.close()
         db.database.close()
@@ -243,16 +249,19 @@ class ItemWindow(QDialog, Item_Ui_Dialog):
         super().__init__(parent)
         self.item_name = item_name
         self.createTableInfo()
-        self.setupUi(self, item_name, self.image_list, self.links, self.price_list)
+        self.setupUi(self, self.item.category, item_name, self.item.getImage(), self.image_list, self.links, self.price_list)
         self.connectSignalsSlots()
 
     def connectSignalsSlots(self):
         self.favorite_pushButton.clicked.connect(self.executeFavorite)
+        
+        for index, item_link_button in enumerate(self.item_link_buttons):
+            item_link_button.clicked.connect(self.createWebpageFunction(self.links[index], index))
 
     def createTableInfo(self):
         db = Database()
         cursor = db.database.cursor()
-        query = "SELECT item_id, name, category, main_link FROM items WHERE name = %s"
+        query = "SELECT item_id, name, category, main_link, price FROM items WHERE name = %s"
         cursor.execute(query, [self.item_name])
         item_info = cursor.fetchone()
         
@@ -281,12 +290,28 @@ class ItemWindow(QDialog, Item_Ui_Dialog):
             Window.user.addFavorite(self.item.item_id)
             print("Successful?", Window.user)
 
+    def createWebpageFunction(self, link, index):
+
+        def openPage():
+            wd = Webdriver()
+            wd.driver.get(link)
+            wd.driver.maximize_window()
+            buttons = wd.driver.find_elements(By.LINK_TEXT, "خرید اینترنتی")
+            # print("count :", len(buttons))
+            # buttons[index].click()
+
+            # actions = ActionChains(wd.driver)
+            # actions.move_to_element(buttons[index]).perform()
+            # buttons[index].click()
+            wd.driver.get(buttons[index].get_attribute('href'))
+
+
+        return openPage
+
 class FavoriteWindow(QDialog, Favorite_Ui_Dialog):
     def __init__(self, parent = None):
         super().__init__(parent)
         self.setupUi(self, Window.user, Window.user.getFavorites())
-
-
 
 if __name__ == "__main__":
 

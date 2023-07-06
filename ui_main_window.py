@@ -177,7 +177,7 @@ class Ui_MainWindow(object):
                 category_tableWidget = QtWidgets.QTableWidget(self.frame)
                 category_tableWidget.setLayoutDirection(QtCore.Qt.RightToLeft)
                 category_tableWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-                category_tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+                # category_tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
                 category_tableWidget.setShowGrid(False)
                 category_tableWidget.setObjectName(f"{category}_tableWidget")
                 category_tableWidget.setColumnCount(10)
