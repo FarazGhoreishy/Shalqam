@@ -314,14 +314,7 @@ class ItemWindow(QDialog, Item_Ui_Dialog):
             wd.driver.get(link)
             wd.driver.maximize_window()
             buttons = wd.driver.find_elements(By.LINK_TEXT, "خرید اینترنتی")
-            # print("count :", len(buttons))
-            # buttons[index].click()
-
-            # actions = ActionChains(wd.driver)
-            # actions.move_to_element(buttons[index]).perform()
-            # buttons[index].click()
             wd.driver.get(buttons[index].get_attribute('href'))
-
 
         return openPage
 
@@ -333,7 +326,13 @@ class FavoriteWindow(QDialog, Favorite_Ui_Dialog):
 class SearchWindow(QDialog, Search_Ui_Dialog):
     def __init__(self, search_entry, items, parent = None):
         super().__init__(parent)
+        self.items = items
         self.setupUi(self, search_entry, items)
+        self.connectSignalSlots()
+
+    def connectSignalSlots(self):
+        for index, item_name_button in enumerate(self.item_name_buttons):
+            item_name_button.clicked.connect(Window.createItemFunction(self.items[index].name))
 
 if __name__ == "__main__":
 
