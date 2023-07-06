@@ -52,7 +52,7 @@ class Ui_Dialog(object):
 
         self.item_name_buttons = []
         
-        cols = 4
+        cols = 2
         rows = ceil(len(items) / cols)
         positions = [(i, j) for i in range(rows) for j in range(cols)]
 
@@ -61,14 +61,14 @@ class Ui_Dialog(object):
             
             item_name_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
             item_name_button.setFont(label_font)
-            item_name_button.setStyleSheet("QPushButton{ border-style: none;  text-align: center}")
+            item_name_button.setStyleSheet("QPushButton{ border-style: solid;  text-align: center}")
             item_name_button.setText(item.name)
             
             item_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
 
             item_qpixmap = QtGui.QPixmap()
             item_qpixmap.loadFromData(item.getImage())
-            item_label.setPixmap(item_qpixmap.scaled(170, 230))
+            item_label.setPixmap(item_qpixmap.scaled(200, 200))
             item_label.setAlignment(QtCore.Qt.AlignCenter)
 
             item_price_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)

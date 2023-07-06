@@ -114,7 +114,7 @@ class Window(QMainWindow, Main_Ui_Window):
                 item_name_button = QPushButton()
                 item_name_button.setFont(label_font)
                 item_name_button.setStyleSheet("QPushButton{ border-style: none;  text-align: center}")
-                item_name_button.setText(item.name)
+                item_name_button.setText(item.name.replace(' ', '\n'))
                 
                 category_tableWidget.setCellWidget(0, column_number, item_name_button)
 
@@ -139,33 +139,35 @@ class Window(QMainWindow, Main_Ui_Window):
             category_tableWidget.horizontalHeader().setDefaultSectionSize(180)
             category_tableWidget.verticalHeader().setDefaultSectionSize(180)
 
-    def executeFavorites(Self):
+    def executeFavorites(self):
         dialog = FavoriteWindow()
         dialog.exec()
 
-    def createCategoryFucntion(self, category_name):
-
-        def executeCategory(self):
-            dialog = CategoryWindow(category_name)
-            dialog.exec()
-
-        return executeCategory
-    
-    def createItemFunction(self, item_name):
-
-        def executeItem(self):
-            dialog = ItemWindow(item_name)
-            dialog.exec()
-
-        return executeItem
-    
     def executeSearch(self):
         search_entry = self.search_lineEdit.text()
         items = WebFunctions.search_web(search_entry)
 
         dialog = SearchWindow(search_entry, items)
         dialog.exec()
-        
+
+    @staticmethod
+    def createCategoryFucntion(category_name):
+
+        def executeCategory():
+            dialog = CategoryWindow(category_name)
+            dialog.exec()
+
+        return executeCategory
+    
+    @staticmethod
+    def createItemFunction(item_name):
+
+        def executeItem():
+            dialog = ItemWindow(item_name)
+            dialog.exec()
+
+        return executeItem
+    
 class LoginDialog(QDialog, Login_Ui_Dialog):
     def __init__(self, parent = None):
         super().__init__(parent)
@@ -239,7 +241,12 @@ class CategoryWindow(QDialog, Category_Ui_Dialog):
         self.category_name = category_name
         self.items = CategoryWindow.getItems(self.category_name)
         self.setupUi(self, category_name, self.items)
-    
+        self.connectSignalSlots()
+
+    def connectSignalSlots(self):
+        for index, item_name_button in enumerate(self.item_name_buttons):
+            item_name_button.clicked.connect(Window.createItemFunction(self.items[index].name))
+
     @staticmethod
     def getItems(category_name):
         db = Database()
