@@ -14,11 +14,13 @@ from ui_signup import Ui_Dialog as SignUP_Ui_Dialog
 from ui_category import Ui_Dialog as Category_Ui_Dialog
 from ui_item import Ui_Dialog as Item_Ui_Dialog
 from ui_favorites import Ui_Dialog as Favorite_Ui_Dialog
+from ui_search import Ui_Dialog as Search_Ui_Dialog
 
 from user import User
 from item import Item
 from database import Database
 from webdriver import Webdriver
+from web_functions import WebFunctions
 
 class Window(QMainWindow, Main_Ui_Window):
     user = None
@@ -50,6 +52,7 @@ class Window(QMainWindow, Main_Ui_Window):
         self.signup_pushButton.clicked.connect(self.executeSignUp)
         self.favorites_pushButton.clicked.connect(self.executeFavorites)
         self.logout_pushButton.clicked.connect(self.executeLogout)
+        self.search_pushButton.clicked.connect(self.executeSearch)
 
         for i in range(len(self.action_categories)):
             category_name = self.category_names[i]
@@ -156,6 +159,13 @@ class Window(QMainWindow, Main_Ui_Window):
 
         return executeItem
     
+    def executeSearch(self):
+        search_entry = self.search_lineEdit.text()
+        items = WebFunctions.search_web(search_entry)
+
+        dialog = SearchWindow(search_entry, items)
+        dialog.exec()
+        
 class LoginDialog(QDialog, Login_Ui_Dialog):
     def __init__(self, parent = None):
         super().__init__(parent)
@@ -312,6 +322,11 @@ class FavoriteWindow(QDialog, Favorite_Ui_Dialog):
     def __init__(self, parent = None):
         super().__init__(parent)
         self.setupUi(self, Window.user, Window.user.getFavorites())
+
+class SearchWindow(QDialog, Search_Ui_Dialog):
+    def __init__(self, search_entry, items, parent = None):
+        super().__init__(parent)
+        self.setupUi(self, search_entry, items)
 
 if __name__ == "__main__":
 

@@ -39,12 +39,13 @@ class WebFunctions:
             cursor = db.database.cursor()
             query = "SELECT item_id FROM items WHERE name = %s"
             cursor.execute(query, [product_name])
+            result = cursor.fetchone()
 
-            if query is None:
+            if result is None:
                 item = Item.register(*product_info, product_price)
 
             else:
-                item_id = cursor.fetchone()[0]
+                item_id = result[0]
                 item = Item.load(item_id)
             
             items_found.append(item)
