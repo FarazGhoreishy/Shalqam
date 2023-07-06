@@ -47,6 +47,7 @@ class Ui_Dialog(object):
         self.password_lineEdit.setFont(font)
         self.password_lineEdit.setStyleSheet("QLineEdit{ color: #1b3815; line-height: 1.2; position: relative; width: 100%; height: 55px; background: #ebebeb; border-radius: 27px; padding: 0 35px 0 35px;}")
         self.password_lineEdit.setObjectName("password_lineEdit")
+        self.password_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.verticalLayout.addWidget(self.password_lineEdit)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.verticalLayout_3.addLayout(self.horizontalLayout)
