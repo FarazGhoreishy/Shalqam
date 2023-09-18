@@ -1,4 +1,4 @@
-<img src="https://github.com/FarazGhoreishy/Shalqam/blob/main/ui/resources/shalqam.png" alt="Image" width="50" height="50" style="vertical-align:middle"> Shalqam
+<img src="https://github.com/FarazGhoreishy/Shalqam/blob/main/ui/resources/shalqam.png" alt="Image" width="40" height="40" style="vertical-align:middle"> Shalqam
 =======
 Shalqam is an online shopping assistant developed as the final project for Advanced Programming Course IUST - Spring 2023.\
 This project was designed and executed to explore the following topics:
